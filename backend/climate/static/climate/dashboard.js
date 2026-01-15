@@ -1,8 +1,6 @@
 let chart;
 
-/* -------------------------
-   Load Metrics
---------------------------*/
+
 async function loadMetrics() {
   const res = await fetch("/api/metrics/");
   const metrics = await res.json();
@@ -20,9 +18,7 @@ async function loadMetrics() {
   updateMetricBadge();
 }
 
-/* -------------------------
-   Update Badge
---------------------------*/
+
 function updateMetricBadge() {
   const text =
     document.getElementById("metricSelect")
@@ -31,9 +27,7 @@ function updateMetricBadge() {
   document.getElementById("activeMetric").textContent = text;
 }
 
-/* -------------------------
-   Monthly
---------------------------*/
+
 async function loadMonthly() {
   updateMetricBadge();
 
@@ -52,9 +46,7 @@ async function loadMonthly() {
   );
 }
 
-/* -------------------------
-   Annual
---------------------------*/
+
 async function loadAnnual() {
   updateMetricBadge();
 
@@ -69,9 +61,6 @@ async function loadAnnual() {
   );
 }
 
-/* -------------------------
-   Chart Renderer
---------------------------*/
 function renderChart(labels, values, title) {
   if (chart) chart.destroy();
 

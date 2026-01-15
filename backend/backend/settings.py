@@ -84,37 +84,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "metoffice_db",
-#         "USER": "metoffice_user",
-#         "PASSWORD": "strongpassword",
-#         "HOST": "localhost",
-#         "PORT": "5432",
-#     }
-# }
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("DB_NAME", "metoffice_db"),
-#         "USER": os.getenv("DB_USER", "metoffice_user"),
-#         "PASSWORD": os.getenv("DB_PASSWORD", "strongpassword"),
-#         "HOST": os.getenv("DB_HOST", "db"),   # 🔥 NOT localhost
-#         "PORT": os.getenv("DB_PORT", "5432"),
-#     }
-# }
-
-
 import os
 
 DATABASES = {
