@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UK MetOffice Climate Dashboard</title>
+
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f4f6fb;
+    }
+
+    .navbar {
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .card {
+      border-radius: 14px;
+      border: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #495057;
+    }
+
+    .chart-container {
+      height: 460px;
+    }
+
+    .btn {
+      border-radius: 10px;
+      font-weight: 500;
+    }
+
+    .metric-badge {
+      font-size: 0.8rem;
+      background: #eef2ff;
+      color: #1e40af;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-primary mb-4">
+  <div class="container-fluid px-4">
+    <span class="navbar-brand fw-semibold">
+      🌦️ UK MetOffice Climate Platform
+    </span>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- CONTROLS -->
+  <div class="row g-4 mb-4">
+
+    <!-- Metric -->
+    <div class="col-md-4">
+      <div class="card p-4">
+        <div class="card-title mb-2">Metric</div>
+        <select id="metricSelect" class="form-select"></select>
+      </div>
+    </div>
+
+    <!-- Monthly -->
+    <div class="col-md-4">
+      <div class="card p-4">
+        <div class="card-title mb-2">Monthly Data</div>
+        <input
+          type="number"
+          id="yearInput"
+          class="form-control mb-3"
+          min="1800"
+          max="2100"
+          value="2024"
+        >
+        <button
+          class="btn btn-outline-primary w-100"
+          onclick="loadMonthly()"
+        >
+          📅 Load Monthly
+        </button>
+      </div>
+    </div>
+
+    <!-- Annual -->
+    <div class="col-md-4">
+      <div class="card p-4">
+        <div class="card-title mb-2">Annual Trend</div>
+        <button
+          class="btn btn-outline-success w-100 mt-4"
+          onclick="loadAnnual()"
+        >
+          📈 Load Annual Trend
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHART -->
+  <div class="row">
+    <div class="col">
+      <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-semibold mb-0">Climate Data Visualization</h5>
+          <span id="activeMetric" class="metric-badge"></span>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/static/climate/dashboard.js"></script>
+</body>
+</html>
