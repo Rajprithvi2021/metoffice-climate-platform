@@ -1,5 +1,10 @@
 let chart;
 
+const MONTH_NAMES = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
 
 async function loadMetrics() {
   const res = await fetch("/api/metrics/");
@@ -20,19 +25,19 @@ async function loadMetrics() {
 
 
 function updateMetricBadge() {
-  const text =
+  const selected =
     document.getElementById("metricSelect")
       .selectedOptions[0].textContent;
 
-  document.getElementById("activeMetric").textContent = text;
+  document.getElementById("activeMetric").textContent = selected;
 }
 
 
 async function loadMonthly() {
   updateMetricBadge();
 
-  const metricId = metricSelect.value;
-  const year = yearInput.value;
+  const metricId = document.getElementById("metricSelect").value;
+  const year = document.getElementById("yearInput").value;
 
   const res = await fetch(
     `/api/weather/monthly/?metric_id=${metricId}&year=${year}`
@@ -40,7 +45,7 @@ async function loadMonthly() {
   const data = await res.json();
 
   renderChart(
-    data.data.map(v => `Month ${v.month}`),
+    data.data.map(v => MONTH_NAMES[v.month - 1] ?? `Month ${v.month}`),
     data.data.map(v => v.value),
     `Monthly Climate Data (${year})`
   );
@@ -50,7 +55,7 @@ async function loadMonthly() {
 async function loadAnnual() {
   updateMetricBadge();
 
-  const metricId = metricSelect.value;
+  const metricId = document.getElementById("metricSelect").value;
   const res = await fetch(`/api/weather/annual/?metric_id=${metricId}`);
   const data = await res.json();
 
@@ -67,7 +72,7 @@ function renderChart(labels, values, title) {
   chart = new Chart(document.getElementById("chart"), {
     type: "line",
     data: {
-      labels,
+      labels: labels,
       datasets: [{
         label: title,
         data: values,
@@ -93,7 +98,7 @@ function renderChart(labels, values, title) {
         },
         tooltip: {
           backgroundColor: "#111827",
-          titleColor: "#fff",
+          titleColor: "#ffffff",
           bodyColor: "#e5e7eb"
         }
       },
@@ -107,7 +112,8 @@ function renderChart(labels, values, title) {
   });
 }
 
-document.getElementById("metricSelect")
+document
+  .getElementById("metricSelect")
   .addEventListener("change", updateMetricBadge);
 
 loadMetrics();
