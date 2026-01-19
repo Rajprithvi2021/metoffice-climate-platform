@@ -1,9 +1,15 @@
 from celery import shared_task
-from climate.models import WeatherMetric, MonthlyWeatherFact
+from climate.models import (
+    WeatherMetric,
+    MonthlyWeatherFact,
+    SeasonalWeatherFact,
+    AnnualWeatherFact,
+)
 from climate.services.metoffice_parser import fetch_and_parse
 
-@shared_task(bind=True, autoretry_for=(Exception,), retry_backoff=30, retry_kwargs={'max_retries': 3})
-def ingest_weather_data(self, url, parameter, region):
+
+@shared_task
+def ingest_weather_data(url, parameter, region):
     metric, _ = WeatherMetric.objects.get_or_create(
         parameter=parameter,
         region=region
@@ -19,3 +25,17 @@ def ingest_weather_data(self, url, parameter, region):
                 month=i,
                 defaults={"value": v}
             )
+
+        for s, v in row["seasonal"].items():
+            SeasonalWeatherFact.objects.update_or_create(
+                metric=metric,
+                year=year,
+                season=s,
+                defaults={"value": v}
+            )
+
+        AnnualWeatherFact.objects.update_or_create(
+            metric=metric,
+            year=year,
+            defaults={"value": row["annual"]}
+        )
